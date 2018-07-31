@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="css\fleshStyle.css">
+	</head>
+	<body onload = "init()" oncontextmenu="return false;">
+		<canvas id="canvas" width="900" height="900"><font color="white">ERROR: Canvas not supported.</font></canvas>
+		<a onClick=toggelSize()><u>-Zoom in/out-</u></a>
+		<br><a>Move to:</a>
+		<a onClick=setGoblinLocation(1,1)>(1,1)-</a>
+		<a onClick=setGoblinLocation(2,3)>(2,3)-</a>
+		<a onClick=setGoblinLocation(4,0)>(4,0)</a>
+		<br>
+
+		--<a onClick=moveCharacter(-1,0)>&#x2196;</a> <a onClick=moveCharacter(0,-1)>&#x2197;</a>
+		<br>
+		<a onClick=moveCharacter(0,1)>&nbsp; &#x2199;</a> <a onClick=moveCharacter(1,0)>&#x2198;</a>
+
+		<script src="js\flesh.js"></script>
+		<script src="js\flesh-classes.js"></script>
+		<script src="js\flesh-battle-map.js"></script>
+		<script src="js\gui.js"></script>
+
+	</body>
+</html>
