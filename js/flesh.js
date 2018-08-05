@@ -1,4 +1,7 @@
 //Written by Wyatt Dorn
+//Goblin sprite found at: https://gameartpartners.com/downloads/goblin-medieval-character-art/
+//Orc sprite found at: http://www.gamebuildingtools.com/product/lumbering-orc-club/
+//Fire Elementaql sprite found at: http://wiki.rivalkingdomsgame.com/summons:greater-fire-elemental
 
 const numOfAssets = 3; //Number of assets that must be loaded in before a given scene can be rendered
 const guiBarHeight = 300;
@@ -57,7 +60,7 @@ function init(){
   draw();
 
 
-} // end init
+} //end init()
 
 function logMouseClick(e){
   console.log("Mouse clicked");
@@ -82,19 +85,19 @@ function logMouseClick(e){
   console.log(clickPosition.y);
 
   draw();
-}
+}//end logMouseClick()
 
 function guiEventHandler(x,y){
   console.log('Clicked in gui');
   myGUI.clickEvent(x,y);
-}
+}//end guiEventHandler()
 
 function moveCharacter(x,y){
   myCreatures[selectedCreature].setLocation(myCreatures[selectedCreature].location[0]+x, myCreatures[selectedCreature].location[1]+y);
   //creature.setLocation[0,0];
   console.log('move it');
   draw();
-}
+}//end moveCharacter()
 
 function generateDummyCreatures(){
   var m = new Meat('fire');
