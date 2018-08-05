@@ -60,7 +60,8 @@ class Creature {
     this.speed = Math.floor((this.dexterity + this.agility)/2);
     this.strength = Math.floor((this.might + this.fortitude)/2);
     this.mind = Math.floor((this.intelegence + this.wits)/2);
-    this.hp = 1;
+    this.currentHP = 1;
+    this.maxHP = 1;
     this.spirit = 1; //spirit is mana
   }
 

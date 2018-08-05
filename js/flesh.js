@@ -102,7 +102,7 @@ function generateDummyCreatures(){
 
   selectedCreature = 0;
 
-  //b.printElements();
+  //Friendly Creatures
   myCreatures.push(new Creature("Gobbo", b, 'media/images/character-sprites/goblin-1.png'));
   myCreatures.push(new Creature("Goblina", b, 'media/images/character-sprites/goblin-1.png'));
   myCreatures.push(new Creature("Flambo", b, 'media/images/character-sprites/fireelemental-1.png'));
@@ -111,6 +111,13 @@ function generateDummyCreatures(){
   myCreatures[1].setLocation(0,4);
   myCreatures[2].setLocation(0,3);
   myCreatures[3].setLocation(1,4);
+
+  myCreatures[0].maxHP = 10;
+  myCreatures[1].maxHP = 1;
+  myCreatures[2].maxHP = 2;
+  myCreatures[3].maxHP = 5;
+
+  //Enemy Creatures
   enemyCreatures.push(new Creature("Skelbo", b));
   enemyCreatures.push(new Creature("Skelki", b));
   enemyCreatures.push(new Creature("Skelontonovich", b));
@@ -150,10 +157,6 @@ function toggelSize(){
     diamondWidth=100;
   }
   draw();
-  console.log(myBattleMap.diamonds.length);
-  for(var i = 0; i < myBattleMap.diamonds.length; i++){
-    console.log(myBattleMap.diamonds[i].getPixelLocation()[0]);
-  }
 }
 
 function loadImages(){

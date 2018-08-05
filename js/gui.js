@@ -8,6 +8,7 @@ class GUI {
     this.NEarrow = new Image();
     this.SWarrow = new Image();
     this.SEarrow = new Image();
+    this.zoomIcon = new Image();
 
     this.ctx = context;
     this.canvas = canvas;
@@ -29,6 +30,7 @@ class GUI {
     this.NEarrow.src = 'media/images/gui/NE-arrow.png';
     this.SWarrow.src = 'media/images/gui/SW-arrow.png';
     this.SEarrow.src = 'media/images/gui/SE-arrow.png';
+    this.zoomIcon.src = 'media/images/gui/zoom-out.png';
   }//end init()
 
   //Draws bottom bar gui along with all buttons on said bar
@@ -38,9 +40,11 @@ class GUI {
 
     this.drawArrows();
     this.drawUnitList();
+    this.drawZoomIcon();
 
   }//end draw()
 
+  //Draws the arrows used to move the indivisual creatures
   drawArrows(){
     ctx.save();
     ctx.translate(this.borderWidth, this.canvas.height  - this.barHeight + this.borderWidth);
@@ -53,33 +57,67 @@ class GUI {
     ctx.drawImage(this.SEarrow, this.arrowSize, this.arrowSize,  this.arrowSize, this.arrowSize);
 
     ctx.restore();
+  }//end drawArrows()
+
+  //Calculates and draws the HP bar for a given creature.
+  drawHPBar(creature, x, y){
+    ctx.save();
+    var percentHP = myCreatures[creature].currentHP/myCreatures[creature].maxHP;
+    //Draw outline of HP Bar
+    ctx.fillStyle = "black";
+    ctx.fillRect(x+105, y+10, 102, 12);
+    //Fill bar with respective amount of HP
+    ctx.fillStyle = "red";
+    ctx.fillRect(x+106, y+11, percentHP*100, 10);
+    ctx.restore;
+
   }
 
+  //Draws the creature's icon, name, and calls drawHPBar
+  drawUnitInfo(creature, x, y){
+    ctx.save();
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.drawImage(creatureImages[creature], x, y, 100, 100);
+    ctx.fillText(myCreatures[creature].name, x+105, y+50);
+
+    this.drawHPBar(creature, x, y);
+
+    ctx.restore;
+  }//end drawUnitInfo()
+
+  //Draws a list of the player's creatures in the UI bar.
+  //Information printed includes the name, icaon, and HP bar of each creature.
   drawUnitList(){
     ctx.save();
     ctx.translate(2*this.borderWidth + 2*this.arrowSize, this.canvas.height  - this.barHeight + this.borderWidth);
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "black";
 
-    ctx.drawImage(creatureImages[0], 0,0,100,100);
-    ctx.fillText(myCreatures[0].name,105,50);
+    this.drawUnitInfo(0,0,0);
+    this.drawUnitInfo(1,0,105);
+    this.drawUnitInfo(2,200,0);
+    this.drawUnitInfo(3,200,105);
 
-    ctx.drawImage(creatureImages[1], 0,105,100,100);
-    ctx.fillText(myCreatures[1].name,105,155);
+    //ctx.restore();
+  }//end drawUnitList()
 
-    ctx.translate(200,0);
+  //Draws the zoom in/out icons to the UI Bar
+  drawZoomIcon(){
+    ctx.save();
+    ctx.translate(450, 0);
+    ctx.drawImage(this.zoomIcon, 0, 0, 100, 100);
+    ctx.restore;
+  }
 
-    ctx.drawImage(creatureImages[2], 0,0,100,100);
-    ctx.fillText(myCreatures[2].name,105,50);
-
-    ctx.drawImage(creatureImages[3], 0,105,100,100);
-    ctx.fillText(myCreatures[3].name,105,155);
-
-    //ctx.drawImage(gobbo, 105,0,100,100);
-    //ctx.drawImage(gobbo, 105,105,100,100);
-
-    ctx.restore();
-
+  zoomInOut(){
+    console.log('Zoom it!');
+    toggelSize();
+    if(diamondWidth==100){
+      this.zoomIcon.src = 'media/images/gui/zoom-in.png';
+    }
+    else{
+      this.zoomIcon.src = 'media/images/gui/zoom-out.png';
+    }
+    this.drawZoomIcon();
   }
 
   //handles logic when a click event occurs in the gui
@@ -144,6 +182,13 @@ class GUI {
         selectedCreature = 3;
         console.log('Selected: ' + myCreatures[selectedCreature].name);
         return true; //button was successfully clicked
+      }
+    }
+
+    x -= (450);
+    if(x < 100){
+      if(y < 100){
+        this.zoomInOut();
       }
     }
 
