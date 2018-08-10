@@ -9,6 +9,8 @@ class GUI {
     this.SWarrow = new Image();
     this.SEarrow = new Image();
     this.zoomIcon = new Image();
+    this.zoomOutIcon = new Image();
+    this.zoomInIcon = new Image();
 
     this.ctx = context;
     this.canvas = canvas;
@@ -30,7 +32,8 @@ class GUI {
     this.NEarrow.src = 'media/images/gui/NE-arrow.png';
     this.SWarrow.src = 'media/images/gui/SW-arrow.png';
     this.SEarrow.src = 'media/images/gui/SE-arrow.png';
-    this.zoomIcon.src = 'media/images/gui/zoom-out.png';
+    this.zoomOutIcon.src = 'media/images/gui/zoom-out.png';
+    this.zoomInIcon.src = 'media/images/gui/zoom-in.png';
   }//end init()
 
   //Draws bottom bar gui along with all buttons on said bar
@@ -67,7 +70,15 @@ class GUI {
     ctx.fillStyle = "black";
     ctx.fillRect(x+105, y+10, 102, 12);
     //Fill bar with respective amount of HP
-    ctx.fillStyle = "red";
+    if(percentHP>0.50){
+      ctx.fillStyle = "green";
+    }
+    else if(percentHP>0.25){
+      ctx.fillStyle = "yellow";
+    }
+    else{
+      ctx.fillStyle = "red";
+    }
     ctx.fillRect(x+106, y+11, percentHP*100, 10);
     ctx.restore;
 
@@ -77,7 +88,12 @@ class GUI {
   drawUnitInfo(creature, x, y){
     ctx.save();
     ctx.font = "20px Arial";
-    ctx.fillStyle = "black";
+    if(creature == selectedCreature){
+      ctx.fillStyle = "white";
+    }
+    else{
+      ctx.fillStyle = "black";
+    }
     ctx.drawImage(creatureImages[creature], x, y, 100, 100);
     ctx.fillText(myCreatures[creature].name, x+105, y+50);
 
@@ -108,14 +124,15 @@ class GUI {
     ctx.restore;
   }
 
+  //Function for handling the logic for zooming in/out on map (needs work)
   zoomInOut(){
     console.log('Zoom it!');
     toggelSize();
     if(diamondWidth==100){
-      this.zoomIcon.src = 'media/images/gui/zoom-in.png';
+      this.zoomIcon = this.zoomInIcon;
     }
     else{
-      this.zoomIcon.src = 'media/images/gui/zoom-out.png';
+      this.zoomIcon = this.zoomOutIcon;
     }
     this.drawZoomIcon();
   }
@@ -160,6 +177,7 @@ class GUI {
     //Culling x again to move to th3e right of the previous section
     x -= (this.borderWidth + 2*this.arrowSize);
 
+    //Creature selection buttons. Creature 0 is always selected by default (for now)
     if(x < this.characterIconSize[0]){
       if(y < this.characterIconSize[1]){
         selectedCreature = 0;

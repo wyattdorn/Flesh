@@ -29,7 +29,7 @@ function init(){
 
   diamondWidth = 200;
   canvasWidth = 1500;//window.outerWidth * window.devicePixelRatio;
-  canvasHeight = 1000;//window.innerHeight * window.devicePixelRatio;
+  canvasHeight = 800;//window.innerHeight * window.devicePixelRatio;
   firstSquare = [canvasWidth/2-diamondWidth/2, 100]; //Starting location for drawing the battle map on the canvas
   canvas = document.getElementById('canvas');
   myGUI = new GUI(ctx, canvas, guiBarHeight);
