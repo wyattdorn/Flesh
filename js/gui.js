@@ -50,6 +50,8 @@ class GUI {
   //Draws the arrows used to move the indivisual creatures
   drawArrows(){
     ctx.save();
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "black";
     ctx.translate(this.borderWidth, this.canvas.height  - this.barHeight + this.borderWidth);
 
 
@@ -58,7 +60,7 @@ class GUI {
     ctx.drawImage(this.NEarrow, this.arrowSize, 0,               this.arrowSize, this.arrowSize);
     ctx.drawImage(this.SWarrow, 0,              this.arrowSize,  this.arrowSize, this.arrowSize);
     ctx.drawImage(this.SEarrow, this.arrowSize, this.arrowSize,  this.arrowSize, this.arrowSize);
-
+    ctx.fillText(myCreatures[selectedCreature].movesLeft, this.arrowSize-10, this.arrowSize+14);
     ctx.restore();
   }//end drawArrows()
 
@@ -66,9 +68,11 @@ class GUI {
   drawHPBar(creature, x, y){
     ctx.save();
     var percentHP = myCreatures[creature].currentHP/myCreatures[creature].maxHP;
+    ctx.font = "12px Arial";
     //Draw outline of HP Bar
     ctx.fillStyle = "black";
-    ctx.fillRect(x+105, y+10, 102, 12);
+    ctx.fillText('HP: ' + myCreatures[creature].currentHP+'/'+myCreatures[creature].maxHP, x+105, y+10);
+    ctx.fillRect(x+105, y+15, 102, 12);
     //Fill bar with respective amount of HP
     if(percentHP>0.50){
       ctx.fillStyle = "green";
@@ -79,7 +83,7 @@ class GUI {
     else{
       ctx.fillStyle = "red";
     }
-    ctx.fillRect(x+106, y+11, percentHP*100, 10);
+    ctx.fillRect(x+106, y+16, percentHP*100, 10);
     ctx.restore;
 
   }
@@ -96,6 +100,7 @@ class GUI {
     }
     ctx.drawImage(creatureImages[creature], x, y, 100, 100);
     ctx.fillText(myCreatures[creature].name, x+105, y+50);
+    ctx.fillText('Level: ' + myCreatures[creature].level, x+105, y+70);
 
     this.drawHPBar(creature, x, y);
 
@@ -154,30 +159,50 @@ class GUI {
     x -= this.borderWidth;
     y -= this.borderWidth;
 
+    ////////////////////////////////////////////////////////////////////////////
+    //  MOVEMENT ARROWS
+    //  Width: 2*arrowSize
+    ////////////////////////////////////////////////////////////////////////////
+
     if(x < this.arrowSize){
       if(y < this.arrowSize){
-        moveCharacter(-1,0);
+        if(myCreatures[selectedCreature].movesLeft>0){
+          moveCharacter(-1,0);
+          myCreatures[selectedCreature].movesLeft--;
+        }
         return true; //button was successfully clicked
       }
       else if(y < 2*this.arrowSize){
-        moveCharacter(0,1);
+        if(myCreatures[selectedCreature].movesLeft>0){
+          moveCharacter(0,1);
+          myCreatures[selectedCreature].movesLeft--;
+        }
         return true; //button was successfully clicked
       }
     }
     else if(x < 2*this.arrowSize){
       if(y < this.arrowSize){
-        moveCharacter(0,-1);
+        if(myCreatures[selectedCreature].movesLeft>0){
+          moveCharacter(0,-1);
+          myCreatures[selectedCreature].movesLeft--;
+        }
         return true; //button was successfully clicked
       }
       else if(y < 2*this.arrowSize){
-        moveCharacter(1,0);
+        if(myCreatures[selectedCreature].movesLeft>0){
+          moveCharacter(1,0);
+          myCreatures[selectedCreature].movesLeft--;
+        }
         return true; //button was successfully clicked
       }
     }
-    //Culling x again to move to th3e right of the previous section
+
+    //Culling x again to move to the right of the previous section
     x -= (this.borderWidth + 2*this.arrowSize);
 
+    ////////////////////////////////////////////////////////////////////////////
     //Creature selection buttons. Creature 0 is always selected by default (for now)
+    ////////////////////////////////////////////////////////////////////////////
     if(x < this.characterIconSize[0]){
       if(y < this.characterIconSize[1]){
         selectedCreature = 0;
@@ -203,6 +228,7 @@ class GUI {
       }
     }
 
+    //Culling x again to move to the right of the previous section
     x -= (450);
     if(x < 100){
       if(y < 100){

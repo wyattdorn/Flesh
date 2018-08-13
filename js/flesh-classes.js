@@ -50,6 +50,7 @@ class Creature {
     this.name = name;
     this.Body = body;
     this.imgSrc = path;
+    this.level = 0;
     this.location = [0,0];
     this.dexterity = 10;
     this.agility = 10;
@@ -63,6 +64,12 @@ class Creature {
     this.currentHP = 1;
     this.maxHP = 1;
     this.spirit = 1; //spirit is mana
+    this.moveSpeed = 4;
+    this.movesLeft = this.moveSpeed;
+  }
+
+  levelUp(){
+    this.level++;
   }
 
   setLocation(x,y){

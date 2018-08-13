@@ -120,6 +120,14 @@ function generateDummyCreatures(){
   myCreatures[2].maxHP = 2;
   myCreatures[3].maxHP = 5;
 
+  myCreatures[0].levelUp();
+  myCreatures[0].levelUp();
+  myCreatures[1].levelUp();
+  myCreatures[2].levelUp();
+  myCreatures[3].levelUp();
+
+  myCreatures[0].movesLeft--;
+
   //Enemy Creatures
   enemyCreatures.push(new Creature("Skelbo", b));
   enemyCreatures.push(new Creature("Skelki", b));
@@ -223,6 +231,15 @@ function loadScreenCheck(){
   },100);
 }
 
+function highlightSquare(ctx, x, y){
+  ctx.fillStyle = "#7EC0EE";
+  ctx.beginPath();
+  //myBattleMap.diamonds[0,0].pixelLocation[0];
+  //console.log(myBattleMap.grid[x][y].getPixelLocation()[0]*diamondWidth+firstSquare[0]-diamondWidth/2+','+myBattleMap.grid[x][y].getPixelLocation()[1]*diamondWidth+firstSquare[1]-diamondWidth/4);
+  ctx.arc(myBattleMap.grid[x][y].getPixelLocation()[0]*diamondWidth+firstSquare[0], myBattleMap.grid[x][y].getPixelLocation()[1]*diamondWidth+firstSquare[1],diamondWidth/4,0,2*Math.PI);
+  ctx.fill();
+}
+
 function draw() {
   console.log('draw');
 
@@ -233,7 +250,9 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   drawDiamond(ctx);
+  highlightSquare(ctx,myCreatures[selectedCreature].location[0],myCreatures[selectedCreature].location[1] );
   drawCreatures();
+
   myGUI.draw();
 }
 
