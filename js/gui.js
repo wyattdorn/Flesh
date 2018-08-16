@@ -18,7 +18,7 @@ class GUI {
 
     this.init();
 
-  }
+  }//end constructor()
 
   //called by constructor to initiallize variable values
   init(){
@@ -34,6 +34,7 @@ class GUI {
     this.SEarrow.src = 'media/images/gui/SE-arrow.png';
     this.zoomOutIcon.src = 'media/images/gui/zoom-out.png';
     this.zoomInIcon.src = 'media/images/gui/zoom-in.png';
+    this.zoomIcon = this.zoomInIcon;
   }//end init()
 
   //Draws bottom bar gui along with all buttons on said bar
@@ -44,6 +45,7 @@ class GUI {
     this.drawArrows();
     this.drawUnitList();
     this.drawZoomIcon();
+    this.drawTurnButton();
 
   }//end draw()
 
@@ -129,6 +131,32 @@ class GUI {
     ctx.restore;
   }
 
+  drawTurnButton(){
+    ctx.save();
+    ctx.translate(0, 110);
+    if(playerTurn == true){
+      ctx.fillStyle = 'white';
+    }
+    else{
+      ctx.fillStyle = 'gray';
+    }
+    ctx.fillRect(0,0,100,100);
+    ctx.fillStyle = 'black';
+    ctx.font = "20px Arial";
+    ctx.fillText('End', 25, 45);
+    ctx.fillText('Turn', 25, 65);
+    ctx.restore();
+  }
+
+  turnButtonLogic(){
+    if(playerTurn == true){
+      endTurn();
+    }
+    else{
+      startTurn();
+    }
+  }
+
   //Function for handling the logic for zooming in/out on map (needs work)
   zoomInOut(){
     console.log('Zoom it!');
@@ -201,7 +229,8 @@ class GUI {
     x -= (this.borderWidth + 2*this.arrowSize);
 
     ////////////////////////////////////////////////////////////////////////////
-    //Creature selection buttons. Creature 0 is always selected by default (for now)
+    // Creature selection buttons. Creature 0 is always selected by default (for now)
+    // Width: 2*characterIconSize
     ////////////////////////////////////////////////////////////////////////////
     if(x < this.characterIconSize[0]){
       if(y < this.characterIconSize[1]){
@@ -228,11 +257,20 @@ class GUI {
       }
     }
 
+
     //Culling x again to move to the right of the previous section
     x -= (450);
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Zoom in/out and End Turn buttons
+    // Width: 100px
+    ////////////////////////////////////////////////////////////////////////////
     if(x < 100){
       if(y < 100){
         this.zoomInOut();
+      }
+      if(y > 110 && y < 210){
+        this.turnButtonLogic();
       }
     }
 

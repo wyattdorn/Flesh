@@ -18,6 +18,8 @@ var creature, myCreatures, enemyCreatures, selectedCreature; //arrays of enemy a
 var myGUI;  //GUI class instance
 var gobo, skeleman; //variables for laoding creature images
 var loadCounter; //counter to represent the number of image files properly loaded
+var playerTurn; //Bool that indicates whether or not it is the player's turn in combat
+var highlightedSquares; //Array of locations to be highlighted for the purposes of determining attack/move ranges
 
 function init(){
 
@@ -27,6 +29,7 @@ function init(){
   mapSize = 5;
   myBattleMap = new BattleMap(mapSize);
 
+  playerTurn = true;
   diamondWidth = 200;
   canvasWidth = 1500;//window.outerWidth * window.devicePixelRatio;
   canvasHeight = 800;//window.innerHeight * window.devicePixelRatio;
@@ -91,6 +94,21 @@ function guiEventHandler(x,y){
   console.log('Clicked in gui');
   myGUI.clickEvent(x,y);
 }//end guiEventHandler()
+
+function endTurn(){
+  playerTurn = false;
+  //disable certain controls
+  //perform logic for enemy turn
+
+  console.log('player turn ended');
+}//end endTurn()
+
+function startTurn(){
+  playerTurn = true;
+  myCreatures.forEach(function(element){
+    element.movesLeft = element.moveSpeed;
+  });
+}
 
 function moveCharacter(x,y){
   myCreatures[selectedCreature].setLocation(myCreatures[selectedCreature].location[0]+x, myCreatures[selectedCreature].location[1]+y);
