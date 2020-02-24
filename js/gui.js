@@ -3,7 +3,7 @@ class GUI {
   //The gui bar has a border around it (where no buttons will appear) with a width of 1/6 the height of the bar
 
   constructor(context, canvas, guiBarHeight) {
-    //left blank... for now
+    //Get the icons in the GUI ready to load their images
     this.NWarrow = new Image();
     this.NEarrow = new Image();
     this.SWarrow = new Image();

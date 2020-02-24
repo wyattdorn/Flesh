@@ -12,7 +12,7 @@ STRENGTH
 -FORTITUDE (How much HP you have)
 MIND
 -INT (How much MANA you have)
--WITS (???)
+-WITS (damage reduction from spell attacks)
 
 
 

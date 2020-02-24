@@ -28,12 +28,6 @@ class BattleMap{
         this.grid[x][y] = new Diamond;
       }
     }
-    //this.startXX = 0;
-    /*
-    for (var i = 0; i < this.totalDiamonds; i++) {
-      array[i]
-    }
-    */
   }
 
   generateGrid(){
@@ -51,7 +45,7 @@ class BattleMap{
     var startXX = startX;
     for(var x = 0; x < mapSize; x++){
       for(var y = 0; y < x+1; y++){
-        this.addDiamond(new Diamond(y, Math.abs(y-x), (y-Math.abs(y-x)+1)*(1/2), (x+1)*(1/4)));
+        this.addDiamond(new Diamond(y, Math.abs(y-x), (y-Math.abs(y-x)+1)*(1/2), (x+1)*(1/4)), 'dirt');
       }
       startXX-=(diamondWidth/2);
     }
@@ -60,7 +54,7 @@ class BattleMap{
     for(var x = mapSize-2; x >=0; x--){
       for(var y = x; y>=0; y--){
         var z = (mapSize-(x-y)-1);
-        this.addDiamond(new Diamond(z, (mapSize-1-y), (z-mapSize+2+y)*(1/2), (1/4)*(2*mapSize-x-1)));
+        this.addDiamond(new Diamond(z, (mapSize-1-y), (z-mapSize+2+y)*(1/2), (1/4)*(2*mapSize-x-1)), 'blue');
       }
       startXX+=(diamondWidth/2);
     }
@@ -76,12 +70,20 @@ class BattleMap{
 }
 
 class Diamond {
-  constructor(xG, yG, xP, yP) {
+
+  constructor(xG, yG, xP, yP, tt) {
     this.isOccupied = false;
     this.height = 5;
-    this.terrainType = 'dirt';
     this.pixelLocation = [xP, yP]; //The center of the given diamond on the canvas, measured in pixels. Location is relative and scales with different diamondWidth value
     this.gridLocation = [xG, yG]; //The grid coordinates of the diamond, from [0,0] to [mapSize, mapSize]
+    if(tt == undefined){
+      this.terrainType = 'dirt';
+      console.log("it is dirt!");
+    }
+    else{
+      this.terrainType = tt;
+      console.log("it is blue!");
+    }
   }
 
   getPixelLocation(){

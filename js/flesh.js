@@ -9,7 +9,7 @@ const guiBarHeight = 300;
 var combatTimer; //Integer tracker for combat rounds
 //var myMap;
 var canvas, canvasWidth, canvasHeight;
-var cube, creatureImages;
+var dirtCube, blueCube, creatureImages;
 var diamondWidth;
 var mapSize, firstSquare;
 var myBattleMap;
@@ -172,7 +172,12 @@ function drawDiamond(ctx){
   var layerStart = firstSquare[0];
 
   for(var i = 0; i < myBattleMap.diamonds.length; i++){
-    ctx.drawImage(cube, myBattleMap.diamonds[i].getPixelLocation()[0]*diamondWidth+firstSquare[0]-diamondWidth/2, myBattleMap.diamonds[i].getPixelLocation()[1]*diamondWidth+firstSquare[1]-diamondWidth/4, diamondWidth, diamondWidth);
+    if(myBattleMap.diamonds[i].terrainType=='dirt'){
+      ctx.drawImage(dirtCube, myBattleMap.diamonds[i].getPixelLocation()[0]*diamondWidth+firstSquare[0]-diamondWidth/2, myBattleMap.diamonds[i].getPixelLocation()[1]*diamondWidth+firstSquare[1]-diamondWidth/4, diamondWidth, diamondWidth);
+    }
+    else if(myBattleMap.diamonds[i].terrainType=='blue'){
+      ctx.drawImage(blueCube, myBattleMap.diamonds[i].getPixelLocation()[0]*diamondWidth+firstSquare[0]-diamondWidth/2, myBattleMap.diamonds[i].getPixelLocation()[1]*diamondWidth+firstSquare[1]-diamondWidth/4, diamondWidth, diamondWidth);
+    }
   }
 }
 
@@ -192,7 +197,9 @@ function loadImages(){
   loadCounter = 0; //counter to measure if/when all images have been loaded
   gobbo = new Image();
   skeleman = new Image();
-  cube = new Image();
+  //different cube images for diffenent terrain types
+  dirtCube = new Image();
+  blueCube = new Image();
 
   for(var x = 0; x < myCreatures.length; x++){
     //gobbo.src =
@@ -204,7 +211,8 @@ function loadImages(){
 
   //gobbo.src = 'media/images/character-sprites/goblin-1.png';
   skeleman.src = 'media/images/character-sprites/skeleman-1.png';
-  cube.src = 'media/images/brown-cube-400.png';
+  dirtCube.src = 'media/images/brown-cube-400.png';
+  blueCube.src = 'media/images/cube.png';
 
   gobbo.onload = function(){
     loadCounter++;
@@ -214,7 +222,11 @@ function loadImages(){
     loadCounter++;
     //console.log("Skeleman loaded");
   }
-  cube.onload = function(){
+  dirtCube.onload = function(){
+    loadCounter++;
+    //console.log("Cube loaded");
+  }
+  blueCube.onload = function(){
     loadCounter++;
     //console.log("Cube loaded");
   }
